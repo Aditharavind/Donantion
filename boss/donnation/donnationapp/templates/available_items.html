@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Available Items for Donation</title>
+</head>
+<body>
+
+    <h1>Available Items for Donation</h1>
+    <ul>
+        {% for item in items %}
+        <li>
+            <strong>{{ item.name }}</strong> - {{ item.description }} ({{ item.category }})
+            <br>Quantity: {{ item.quantity }} | Donated by: {{ item.donor.username }}
+        </li>
+        {% endfor %}
+    </ul>
+
+    <h2>Institutions (Orphanages, Old Age Homes, Educational Institutions)</h2>
+    <ul>
+        {% for institution in institutions %}
+        <li>
+            <strong>{{ institution.name }}</strong> - {{ institution.get_type_display }}
+            <br>
+            {% if institution.type == 'education' %}
+            <a href="{% url 'chat_with_institution' institution.id %}">Chat with {{ institution.name }}</a>
+            {% else %}
+            <a href="{% url 'sponsor_item' item.id institution.id %}">Sponsor {{ institution.name }}</a>
+            {% endif %}
+        </li>
+        {% endfor %}
+    </ul>
+
+</body>
+</html>
